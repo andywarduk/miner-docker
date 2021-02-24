@@ -1,15 +1,13 @@
 # ---- Build image ----
-FROM ubuntu:latest AS build
+FROM andywarduk/cuda AS build
 
 # Install essential ubuntu packages
 RUN apt-get update
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y install \
-        wget \
         git \
         cmake \
         gnupg \
-        software-properties-common \
         libgl-dev
 
 # Create and switch to the build directory
@@ -17,22 +15,11 @@ RUN mkdir /build
 
 WORKDIR /build
 
-# Set up nvidia CUDA repository and install cuda
-RUN wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-ubuntu2004.pin \
- && mv cuda-ubuntu2004.pin /etc/apt/preferences.d/cuda-repository-pin-600
-
-RUN apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/7fa2af80.pub \
- && add-apt-repository "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/ /" \
- && apt-get update \
- && apt-get -y install cuda
-
 # Clone the ethminer repository
 RUN git clone --recurse-submodules https://github.com/ethereum-mining/ethminer
 
 # Create the ethminer build directory and switch to it
-WORKDIR /build/ethminer
-
-RUN mkdir build
+RUN mkdir ethminer/build
 
 WORKDIR /build/ethminer/build
 
