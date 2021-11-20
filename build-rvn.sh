@@ -7,4 +7,7 @@ if [ x$ver == "x" ]; then
 	exit 1
 fi
 
-docker build rvn --build-arg RVN_WORKER=ang -t rvnminer-$ver -t andywarduk/rvnminer:latest
+docker build rvn --pull --build-arg RVN_WORKER=ang \
+	-t andywarduk/rvnminer:$ver \
+	-t andywarduk/rvnminer:latest
+

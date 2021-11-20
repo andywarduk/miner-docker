@@ -10,7 +10,8 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get -y install \
         libgl-dev \
         ca-certificates
 
-RUN apt-get clean
+RUN apt-get clean && \
+    rm -rf /var/lib/apt/lists
 
 # Create and switch to the build directory
 RUN mkdir /build
@@ -18,8 +19,8 @@ RUN mkdir /build
 WORKDIR /build
 
 # Clone the kawpowminer repository
-RUN git clone --recurse-submodules https://github.com/andywarduk/kawpowminer
-#RUN git clone --recurse-submodules https://github.com/RavenCommunity/kawpowminer
+#RUN git clone --recurse-submodules https://github.com/andywarduk/kawpowminer
+RUN git clone --recurse-submodules https://github.com/RavenCommunity/kawpowminer
 
 # Create the kawpowminer build directory and switch to it
 RUN mkdir kawpowminer/build
@@ -33,6 +34,9 @@ RUN cmake --build .
 
 # Install kawpowminer
 RUN make install
+
+# Remove build directory
+RUN rm -rf /build
 
 # Copy the mine script to root
 WORKDIR /

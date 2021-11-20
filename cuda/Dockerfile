@@ -1,5 +1,5 @@
 # ---- Build image ----
-FROM ubuntu:latest AS build
+FROM ubuntu:20.04 AS build
 
 # Install essential ubuntu packages
 RUN apt-get update
