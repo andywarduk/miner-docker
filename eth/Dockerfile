@@ -33,19 +33,18 @@ RUN make install
 
 
 # ---- Final image ----
-FROM ubuntu:latest
+FROM ubuntu:20.04
 
 # Install ca-certificates for ssl connections
-RUN apt-get update
-
-RUN DEBIAN_FRONTEND=noninteractive apt-get -y install \
-        ca-certificates
-
-RUN apt-get clean
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get -y install \
+        ca-certificates && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists
 
 # Copy ethminer binaries from the build image
 COPY --from=build /usr/local/bin/ethminer /usr/local/bin
-COPY --from=build /usr/local/bin/kernels/ /usr/local/bin
+COPY --from=build /usr/local/bin/kernels/ /usr/local/bin/kernels/
 
 # Copy the mine script to root
 WORKDIR /

@@ -1,5 +1,5 @@
 #!/bin/bash
 
-docker push andywarduk/ethminer
-docker push andywarduk/rvnminer
+docker push -a andywarduk/ethminer
+docker push -a andywarduk/rvnminer
 

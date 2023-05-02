@@ -7,4 +7,7 @@ if [ x$ver == "x" ]; then
 	exit 1
 fi
 
-docker build eth --build-arg ETH_WORKER=ang -t ethminer-$ver -t andywarduk/ethminer:latest
+docker build eth --pull --build-arg ETH_WORKER=ang \
+	-t andywarduk/ethminer:$ver \
+	-t andywarduk/ethminer:latest
+
